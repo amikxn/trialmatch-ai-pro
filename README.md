@@ -17,7 +17,7 @@ Lack of standardized patient-trial pairing tools
 
 Limited awareness among both clinicians and patients
 
-🔎 Source: 🔎 _Source:_ [ASCO Educational Book, 2020](https://ascopubs.org/doi/full/10.1200/EDBK_156686)
+ 🔎 _Source:_ [ASCO Educational Book, 2020](https://ascopubs.org/doi/full/10.1200/EDBK_156686)
 
 🔎 _Source:_ [PMC Systematic Review: Enrollment Rates in Cancer Trials](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6410951/)
 
