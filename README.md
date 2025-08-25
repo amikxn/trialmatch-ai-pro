@@ -24,16 +24,9 @@ Limited awareness among both clinicians and patients
 
 🌍 Market Opportunity
 
-The global Clinical Trial Management System (CTMS) market is:
+**Market Size:** The global Clinical Trial Management System (CTMS) market is valued at **USD 2.02 billion in 2024**, projected to reach **USD 6.60 billion by 2034**, with a **CAGR of 12.57%** from 2025 to 2034.
 
-Valued at $1.85 billion (2023)
-
-Projected to reach $4.73 billion by 2030, growing at a CAGR of 14.6%
-
-This reflects rapid demand for automation, efficiency, and data integration across life sciences.
-
-💡 _Source:_ [Grand View Research, 2024 – Clinical Trial Management System Market](https://www.grandviewresearch.com/industry-analysis/clinical-trial-management-system-market)
-
+💡 _Source:_ [Precedence Research, 2024 – Clinical Trial Management System Market](https://www.precedenceresearch.com/clinical-trial-management-system-market)
 
 ## 💡 Solution
 
