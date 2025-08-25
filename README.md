@@ -32,7 +32,8 @@ Projected to reach $4.73 billion by 2030, growing at a CAGR of 14.6%
 
 This reflects rapid demand for automation, efficiency, and data integration across life sciences.
 
-💡 Source: Grand View Research, 2024
+💡 _Source:_ [Grand View Research, 2024 – Clinical Trial Management System Market](https://www.grandviewresearch.com/industry-analysis/clinical-trial-management-system-market)
+
 
 ## 💡 Solution
 
