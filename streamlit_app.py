@@ -163,111 +163,8 @@ def patient_matching_tab(patients, engine):
                 f"{'✅' if match['is_match'] else '❌'} {match['trial_title']}", 
                 expanded=match['is_match']
             ):
-                if st.button("📄 Generate PDF Report"):
-            try:
-                from reportlab.lib.pagesizes import letter
-                from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-                from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-                from reportlab.lib.units import inch
-                from reportlab.lib import colors
-                import io
-                
-                # Create PDF in memory
-                buffer = io.BytesIO()
-                doc = SimpleDocTemplate(buffer, pagesize=letter, topMargin=0.5*inch)
-                
-                # Styles
-                styles = getSampleStyleSheet()
-                title_style = ParagraphStyle(
-                    'CustomTitle',
-                    parent=styles['Heading1'],
-                    fontSize=16,
-                    spaceAfter=30,
-                    textColor=colors.HexColor('#1f77b4')
-                )
-                
-                # Content
-                content = []
-                
-                # Title
-                content.append(Paragraph(f"TrialMatch AI - Eligible Patients Report", title_style))
-                content.append(Paragraph(f"Trial: {trial['title']}", styles['Heading2']))
-                content.append(Paragraph(f"Generated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M')}", styles['Normal']))
-                content.append(Spacer(1, 20))
-                
-                # Trial Info
-                content.append(Paragraph("Trial Information:", styles['Heading3']))
-                content.append(Paragraph(f"<b>Trial ID:</b> {trial.get('trial_id', 'N/A')}", styles['Normal']))
-                content.append(Paragraph(f"<b>Description:</b> {trial.get('description', 'N/A')}", styles['Normal']))
-                content.append(Spacer(1, 15))
-                
-                # Patient Table
-                if eligible_patients:
-                    content.append(Paragraph(f"Eligible Patients ({len(eligible_patients)}):", styles['Heading3']))
-                    
-                    # Create table data
-                    table_data = [['Patient ID', 'Age', 'Stage', 'Mutation', 'Performance Status']]
-                    for patient in eligible_patients:
-                        table_data.append([
-                            patient['patient_id'],
-                            str(patient['age']),
-                            patient['stage'],
-                            patient['mutation_status'],
-                            str(patient['performance_status'])
-                        ])
-                    
-                    # Create and style table
-                    table = Table(table_data, colWidths=[1.2*inch, 0.8*inch, 0.8*inch, 1.5*inch, 1.2*inch])
-                    table.setStyle(TableStyle([
-                        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1f77b4')),
-                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                        ('FONTSIZE', (0, 0), (-1, 0), 10),
-                        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                        ('GRID', (0, 0), (-1, -1), 1, colors.black)
-                    ]))
-                    
-                    content.append(table)
-                else:
-                    content.append(Paragraph("No eligible patients found.", styles['Normal']))
-                
-                # Build PDF
-                doc.build(content)
-                buffer.seek(0)
-                
-                # Download button
-                st.download_button(
-                    label="📥 Download PDF Report",
-                    data=buffer.getvalue(),
-                    file_name=f"eligible_patients_{trial['trial_id']}.pdf",
-                    mime="application/pdf"
-                )
-                
-            except ImportError:
-                st.warning("PDF generation requires reportlab. Install with: pip install reportlab")
-            except Exception as e:
-                st.error(f"Error generating PDF: {e}")
-                st.write(f"**Trial ID:** {match['trial_id']}")
-                st.write(f"**Description:** {match['description']}")
-                
-                st.write("**Matching Criteria:**")
-                for reason in match['reasons']:
-                    icon = "✓" if "Meets" in reason else "✗"
-                    st.write(f"{icon} {reason}")
-                
-                # Notes section
-                note_key = f"{selected_patient_id}_{match['trial_id']}"
-                notes = st.text_area(
-                    "Clinical Notes", 
-                    key=f"notes_{note_key}",
-                    value=st.session_state.patient_notes.get(note_key, ""),
-                    placeholder="Add clinical notes, coordinator comments, etc."
-                )
-                st.session_state.patient_notes[note_key] = notes
 
-def trial_overview_tab(patients, trials, engine):
+      def trial_overview_tab(patients, trials, engine):
     """Trial-centric overview interface."""
     st.header("🧪 Clinical Trial Overview")
     
@@ -314,6 +211,91 @@ def trial_overview_tab(patients, trials, engine):
                 file_name=f"eligible_patients_{trial['trial_id']}.csv",
                 mime="text/csv"
             )
+            
+            # PDF Report Generation
+            if st.button("📄 Generate PDF Report"):
+                try:
+                    from reportlab.lib.pagesizes import letter
+                    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+                    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+                    from reportlab.lib.units import inch
+                    from reportlab.lib import colors
+                    import io
+                    
+                    # Create PDF in memory
+                    buffer = io.BytesIO()
+                    doc = SimpleDocTemplate(buffer, pagesize=letter, topMargin=0.5*inch)
+                    
+                    # Styles
+                    styles = getSampleStyleSheet()
+                    title_style = ParagraphStyle(
+                        'CustomTitle',
+                        parent=styles['Heading1'],
+                        fontSize=16,
+                        spaceAfter=30,
+                        textColor=colors.HexColor('#1f77b4')
+                    )
+                    
+                    # Content
+                    content = []
+                    
+                    # Title
+                    content.append(Paragraph(f"TrialMatch AI - Eligible Patients Report", title_style))
+                    content.append(Paragraph(f"Trial: {trial['title']}", styles['Heading2']))
+                    content.append(Paragraph(f"Generated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M')}", styles['Normal']))
+                    content.append(Spacer(1, 20))
+                    
+                    # Trial Info
+                    content.append(Paragraph("Trial Information:", styles['Heading3']))
+                    content.append(Paragraph(f"<b>Trial ID:</b> {trial.get('trial_id', 'N/A')}", styles['Normal']))
+                    content.append(Paragraph(f"<b>Description:</b> {trial.get('description', 'N/A')}", styles['Normal']))
+                    content.append(Spacer(1, 15))
+                    
+                    # Patient Table
+                    content.append(Paragraph(f"Eligible Patients ({len(eligible_patients)}):", styles['Heading3']))
+                    
+                    # Create table data
+                    table_data = [['Patient ID', 'Age', 'Stage', 'Mutation', 'Performance Status']]
+                    for patient in eligible_patients:
+                        table_data.append([
+                            patient['patient_id'],
+                            str(patient['age']),
+                            patient['stage'],
+                            patient['mutation_status'],
+                            str(patient['performance_status'])
+                        ])
+                    
+                    # Create and style table
+                    table = Table(table_data, colWidths=[1.2*inch, 0.8*inch, 0.8*inch, 1.5*inch, 1.2*inch])
+                    table.setStyle(TableStyle([
+                        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1f77b4')),
+                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                        ('FONTSIZE', (0, 0), (-1, 0), 10),
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+                    ]))
+                    
+                    content.append(table)
+                    
+                    # Build PDF
+                    doc.build(content)
+                    buffer.seek(0)
+                    
+                    # Download button
+                    st.download_button(
+                        label="📥 Download PDF Report",
+                        data=buffer.getvalue(),
+                        file_name=f"eligible_patients_{trial['trial_id']}.pdf",
+                        mime="application/pdf"
+                    )
+                    
+                except ImportError:
+                    st.warning("PDF generation requires reportlab. Install with: pip install reportlab")
+                except Exception as e:
+                    st.error(f"Error generating PDF: {e}")
         else:
             st.info("No patients currently match this trial's criteria.")
 
