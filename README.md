@@ -2,7 +2,13 @@
 
 **AI-Powered Clinical Trial Matching Platform for NSCLC Patients**
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app-url.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://trial-match-ai-pro.streamlit.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![GitHub repo size](https://img.shields.io/github/repo-size/amikxn/trialmatch-ai-pro)](https://github.com/amikxn/trialmatch-ai-pro)
+[![GitHub last commit](https://img.shields.io/github/last-commit/amikxn/trialmatch-ai-pro)](https://github.com/amikxn/trialmatch-ai-pro/commits/main)
+
+## 🎯 Problem Statement
 
 🎯 Problem Statement
 
