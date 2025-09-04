@@ -159,10 +159,27 @@ def patient_matching_tab(patients, engine):
         matches = engine.find_matches_for_patient(patient)
         
         for match in matches:
-            with st.expander(
-                f"{'✅' if match['is_match'] else '❌'} {match['trial_title']}", 
-                expanded=match['is_match']
-            ):
+         with st.expander(
+            f"{'✅' if match['is_match'] else '❌'} {match['trial_title']}", 
+            expanded=match['is_match']
+        ):
+            st.write(f"**Trial ID:** {match['trial_id']}")
+            st.write(f"**Description:** {match['description']}")
+            
+            st.write("**Matching Criteria:**")
+            for reason in match['reasons']:
+                icon = "✓" if "Meets" in reason else "✗"
+                st.write(f"{icon} {reason}")
+            
+            # Notes section
+            note_key = f"{selected_patient_id}_{match['trial_id']}"
+            notes = st.text_area(
+                "Clinical Notes", 
+                key=f"notes_{note_key}",
+                value=st.session_state.patient_notes.get(note_key, ""),
+                placeholder="Add clinical notes, coordinator comments, etc."
+            )
+            st.session_state.patient_notes[note_key] = notes
 
 def trial_overview_tab(patients, trials, engine):
     """Trial-centric overview interface."""
