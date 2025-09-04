@@ -164,7 +164,7 @@ def patient_matching_tab(patients, engine):
                 expanded=match['is_match']
             ):
 
-      def trial_overview_tab(patients, trials, engine):
+def trial_overview_tab(patients, trials, engine):
     """Trial-centric overview interface."""
     st.header("🧪 Clinical Trial Overview")
     
