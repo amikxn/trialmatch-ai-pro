@@ -319,48 +319,84 @@ def trial_overview_tab(patients, trials, engine):
 def pdf_analysis_tab():
     """PDF analysis interface."""
     st.header("📄 AI-Powered PDF Analysis")
-    st.info("Upload clinical trial PDFs to automatically extract eligibility criteria")
-    
+    st.info("Upload clinical trial PDFs to automatically extract eligibility criteria and match patients")
+
     uploaded_file = st.file_uploader(
-        "Choose a PDF file", 
+        "Choose a Clinical Trial PDF", 
         type=['pdf'],
         help="Upload a clinical trial protocol PDF"
     )
-    
+
     if uploaded_file:
         if 'OPENAI_API_KEY' not in st.secrets:
             st.error("OpenAI API key not configured. Please add to secrets.toml")
             return
-        
+
         with st.spinner("Analyzing PDF..."):
             # Save uploaded file temporarily
             temp_path = f"temp_{uploaded_file.name}"
             with open(temp_path, "wb") as f:
                 f.write(uploaded_file.getbuffer())
-            
+
             try:
                 parser = PDFParser(st.secrets['OPENAI_API_KEY'])
                 full_text = parser.extract_text_from_pdf(temp_path)
-                
+
                 # Extract criteria with AI
-                structured_criteria = parser.interpret_criteria_with_ai(full_text[:4000])  # Limit for API
-                
+                structured_criteria = parser.interpret_criteria_with_ai(full_text[:4000])  # limit for API
+
                 if structured_criteria:
                     st.success("✅ PDF Analysis Complete!")
-                    
+
                     col1, col2 = st.columns(2)
                     with col1:
-                        st.subheader("Extracted Criteria")
+                        st.subheader("Extracted Criteria (AI)")
                         st.json(structured_criteria)
-                    
+
                     with col2:
                         st.subheader("Raw Inclusion Criteria")
                         inclusion = structured_criteria.get('raw_inclusion', [])
                         for item in inclusion:
                             st.write(f"• {item}")
+
+                    # 🔗 NEW: Match patients against extracted criteria
+                    st.subheader("👥 Eligible Patients (from uploaded PDF)")
+
+                    patients, _ = load_app_data()
+                    if patients is not None:
+                        engine = TrialMatchEngine()
+                        engine.load_trials({"uploaded_pdf": {"criteria": structured_criteria}})
+
+                        eligible_patients = []
+                        for _, patient in patients.iterrows():
+                            is_match, reasons = engine.match_patient_to_trial(patient, structured_criteria)
+                            if is_match:
+                                eligible_patients.append({
+                                    'patient_id': patient['patient_id'],
+                                    'age': patient['age'],
+                                    'stage': patient['stage'],
+                                    'mutation_status': patient['mutation_status'],
+                                    'performance_status': patient['performance_status']
+                                })
+
+                        if eligible_patients:
+                            eligible_df = pd.DataFrame(eligible_patients)
+                            st.dataframe(eligible_df, use_container_width=True)
+
+                            # Export CSV
+                            csv = eligible_df.to_csv(index=False)
+                            st.download_button(
+                                label="📥 Export Eligible Patients",
+                                data=csv,
+                                file_name="eligible_patients_from_pdf.csv",
+                                mime="text/csv"
+                            )
+                        else:
+                            st.info("No patients currently match this trial's criteria.")
+
                 else:
                     st.error("Could not extract structured criteria from PDF")
-                
+
             except Exception as e:
                 st.error(f"Error analyzing PDF: {str(e)}")
             finally:
@@ -368,6 +404,7 @@ def pdf_analysis_tab():
                 import os
                 if os.path.exists(temp_path):
                     os.remove(temp_path)
+
 
 def reports_tab():
     """Reports and logging interface."""
