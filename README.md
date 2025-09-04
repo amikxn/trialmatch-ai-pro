@@ -158,10 +158,10 @@ Created by: Amal Abdi
 
 🔗 Quick Links
 
-Live Demo
-Documentation
-Issues
-License
+- [Live Demo](https://trial-match-ai-pro.streamlit.app/)
+- [Documentation](docs/)
+- [Issues](https://github.com/YOUR-GITHUB-USERNAME/trialmatch-ai-pro/issues)
+- [License](LICENSE)
 
 
 Built with ❤️ for improving clinical trial access and patient outcomes.
