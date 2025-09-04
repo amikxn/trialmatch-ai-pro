@@ -1,0 +1,11 @@
+{
+  "trial_id": "EARLY456",
+  "title": "Early Stage NSCLC Trial",
+  "description": "A clinical trial for patients in early stages of NSCLC.",
+  "criteria": {
+    "stage": ["I", "II"],
+    "mutation_required": [],
+    "performance_status_max": 1
+  }
+}
+

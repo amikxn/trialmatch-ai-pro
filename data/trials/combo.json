@@ -1,0 +1,12 @@
+{
+  "trial_id": "COMBO123",
+  "title": "Combination Therapy Trial for NSCLC",
+  "description": "A clinical trial testing a combination of targeted therapies.",
+  "criteria": {
+    "stage": ["IIIA", "IIIB", "IV"],
+    "mutation_required": ["EGFR", "KRAS"],
+    "performance_status_max": 2
+  }
+}
+
+

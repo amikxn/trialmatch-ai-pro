@@ -79,4 +79,85 @@ class TrialMatchEngine:
             })
         
         return matches
+"""
+Core matching engine for patient-trial matching.
+"""
+import pandas as pd
+import logging
+from typing import Dict, List, Tuple, Any
+
+logger = logging.getLogger(__name__)
+
+class TrialMatchEngine:
+    """Main class for matching patients to clinical trials."""
+    
+    def __init__(self):
+        self.trials = {}
+        logger.info("TrialMatchEngine initialized")
+    
+    def load_trials(self, trials_data: Dict) -> None:
+        """Load trial data into the engine."""
+        self.trials = trials_data
+        logger.info(f"Loaded {len(trials_data)} trials")
+    
+    def match_patient_to_trial(self, patient: pd.Series, trial_criteria: Dict) -> Tuple[bool, List[str]]:
+        """
+        Match a patient to a specific trial.
+        
+        Args:
+            patient: Patient data as pandas Series
+            trial_criteria: Trial eligibility criteria
+            
+        Returns:
+            Tuple of (is_match, reasons_list)
+        """
+        reasons = []
+        
+        try:
+            # Stage check
+            if "stage" in trial_criteria and patient["stage"] not in trial_criteria["stage"]:
+                reasons.append(f"Patient stage {patient['stage']} not in allowed stages {trial_criteria['stage']}")
+                return False, reasons
+
+            # Mutation check
+            mutation_required = trial_criteria.get("mutation_required", None)
+            if mutation_required:
+                if isinstance(mutation_required, list):
+                    if patient["mutation_status"] not in mutation_required:
+                        reasons.append(f"Mutation {patient['mutation_status']} not in required list {mutation_required}")
+                        return False, reasons
+                else:
+                    if patient["mutation_status"] != mutation_required:
+                        reasons.append(f"Mutation {patient['mutation_status']} does not match required {mutation_required}")
+                        return False, reasons
+
+            # Performance status check
+            if patient["performance_status"] > trial_criteria.get("performance_status_max", 2):
+                reasons.append(f"Performance status {patient['performance_status']} exceeds max {trial_criteria.get('performance_status_max', 2)}")
+                return False, reasons
+
+            reasons.append("Meets all inclusion criteria")
+            return True, reasons
+            
+        except Exception as e:
+            logger.error(f"Error in match_patient_to_trial: {e}")
+            reasons.append(f"Error during matching: {str(e)}")
+            return False, reasons
+    
+    def find_matches_for_patient(self, patient: pd.Series) -> List[Dict]:
+        """Find all matching trials for a patient."""
+        matches = []
+        
+        for trial_file, trial in self.trials.items():
+            is_match, reasons = self.match_patient_to_trial(patient, trial["criteria"])
+            matches.append({
+                "trial_file": trial_file,
+                "trial_title": trial["title"],
+                "trial_id": trial.get("trial_id", "Unknown"),
+                "is_match": is_match,
+                "reasons": reasons,
+                "description": trial.get("description", "")
+            })
+        
+        return matches
 
