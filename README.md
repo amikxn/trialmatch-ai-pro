@@ -160,7 +160,7 @@ Created by: Amal Abdi
 
 - [Live Demo](https://trial-match-ai-pro.streamlit.app/)
 - [Documentation](docs/)
-- [Issues](https://github.com/YOUR-GITHUB-USERNAME/trialmatch-ai-pro/issues)
+- [Issues](https://github.com/amikxn/trialmatch-ai-pro/issues)
 - [License](LICENSE)
 
 
