@@ -28,6 +28,7 @@ Limited awareness among both clinicians and patients
 
 💡 _Source:_ [Precedence Research, 2024 – Clinical Trial Management System Market](https://www.precedenceresearch.com/clinical-trial-management-system-market)
 
+
 ## 💡 Solution
 
 TrialMatch AI automates patient-trial matching using AI + rules, reducing hours of work to seconds.
@@ -45,6 +46,124 @@ TrialMatch AI automates patient-trial matching using AI + rules, reducing hours 
 
 ![Dashboard](assets/screenshots/main-dashboard.png)
 
+
 ## 🏗️ Technical Architecture
+┌─────────────────────────────────────────────────────────────────┐
+│                     PRESENTATION LAYER                          │
+├─────────────────────────────────────────────────────────────────┤
+│  Streamlit Web Interface                                        │
+│  ├── Patient-Centric Views                                      │
+│  ├── Trial-Centric Views                                        │
+│  ├── PDF Upload & Processing                                    │
+│  └── Analytics & Reporting                                      │
+└─────────────────┬───────────────────────────────────────────────┘
+                  │
+┌─────────────────┴───────────────────────────────────────────────┐
+│                    APPLICATION LAYER                            │
+├─────────────────────────────────────────────────────────────────┤
+│  Core Business Logic                                            │
+│  ├── TrialMatchEngine     (Matching Algorithms)                 │
+│  ├── DataLoader          (Data Management)                      │
+│  ├── PDFParser           (Document Processing)                  │
+│  └── Validation          (Data Integrity)                       │
+└─────────────────┬───────────────────────────────────────────────┘
+                  │
+┌─────────────────┴───────────────────────────────────────────────┐
+│                     DATA LAYER                                  │
+├─────────────────────────────────────────────────────────────────┤
+│  Patient Data (CSV)                                            │
+│  Trial Data (JSON)                                            │
+│  PDF Documents                                                │
+└─────────────────────────────────────────────────────────────────┘
+⚡ Quick Start
+Prerequisites
+
+Python 3.9+
+OpenAI API key (for PDF features)
+
+Installation
+bash# Clone the repository
+git clone https://github.com/your-username/trialmatch-ai-pro.git
+cd trialmatch-ai-pro
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the application
+streamlit run streamlit_app.py
+📊 Key Metrics & Results
+
+200 sample patients processed
+5 clinical trials in database
+Sub-second matching response times
+Multi-criteria matching algorithm
+PDF document parsing with AI
+
+🛠️ Tech Stack
+
+Frontend: Streamlit
+Backend: Python, Pandas
+AI/ML: OpenAI GPT-4
+Data Processing: PDF parsing, CSV handling
+Visualization: Plotly, Matplotlib
+Testing: Pytest
+
+📚 Documentation
+
+API Documentation
+Architecture Guide
+Deployment Guide
+
+⚠️ Important Disclaimer
+This software is for demonstration and educational purposes only.
+
+❌ NOT intended for actual clinical decision-making or patient care
+❌ NOT FDA approved or validated for clinical use
+❌ NOT HIPAA compliant for production healthcare use
+❌ Should NOT be used to make actual treatment decisions
+
+Always consult qualified healthcare professionals for patient care decisions.
+For production use in healthcare environments, additional validation, compliance measures, and regulatory approvals would be required.
+🤝 Contributing
+This is primarily a portfolio project, but feedback and suggestions are welcome!
+
+Fork the repository
+Create a feature branch
+Make your changes
+Submit a pull request
+
+📜 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License Summary
+
+✅ Commercial use
+✅ Modification
+✅ Distribution
+✅ Private use
+❌ Liability
+❌ Warranty
+
+📧 Contact & Support
+Created by: Amal Abdi
+
+📧 Email: amalabdi19@outlook.com
+💼 LinkedIn: 
+🐙 GitHub: @amikxn
+🌐 Portfolio: 
+
+
+🔗 Quick Links
+
+Live Demo
+Documentation
+Issues
+License
+
+
+Built with ❤️ for improving clinical trial access and patient outcomes.
 
 
